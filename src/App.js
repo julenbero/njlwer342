@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 class App extends Component {
 	state = {
 		inputValue : '',
-		todo       : null
+		todos      : []
 	};
 
 	handleChange = (e) => {
@@ -16,8 +16,9 @@ class App extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		let oldTodos = this.state.todos;
 		this.setState({
-			todo       : this.state.inputValue,
+			todos      : [ ...oldTodos, this.state.inputValue ],
 			inputValue : ''
 		});
 	};
@@ -31,7 +32,7 @@ class App extends Component {
 						<li>Sacar la ropa</li>
 						<li>Hacer la cama</li>
 						<li>Leer un rato</li>
-						{this.state.todo && <li>{this.state.todo}</li>}
+						{this.state.todos.map((todo, index) => <li key={index}>{todo}</li>)}
 					</ul>
 					<form onSubmit={(e) => this.handleSubmit(e)}>
 						<input
@@ -49,3 +50,42 @@ class App extends Component {
 }
 
 export default App;
+
+/* class App extends Component {
+	constructor() {
+	  super()
+	  this.state = {
+		tasks: ['sacar la ropa', 'hacer la cama', 'leer un rato'],
+		newTask: ''
+	  }
+	}
+	addTask(event) {
+	  event.preventDefault()
+	  let oldTasks = this.state.tasks
+	  let newTask = this.state.newTask
+	  this.setState({
+		tasks: [...oldTasks, newTask],
+		newTask: ''
+	  })
+	}
+	updateTask(event) {
+	  this.setState({
+		newTask: event.target.value
+	  })
+	}
+	render() {
+	  return (
+		<div class="wrapper">
+		  <div class="list">
+			<h3>Por hacer:</h3>
+			<ul class="todo">
+			  {this.state.tasks.map((task, index) => <li key={index}>{task}</li>)}
+			</ul>
+			<form onSubmit={this.addTask.bind(this)}>
+			  <input type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter" value={this.state.newTask} onChange={this.updateTask.bind(this)}/>
+			</form>
+		  </div>
+		</div>
+	  )
+	}
+  } */
